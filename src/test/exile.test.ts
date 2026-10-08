@@ -3,7 +3,7 @@ import { scan, costPerMillion, EDGES } from "@/lib/exile";
 
 describe("exile rules", () => {
   it("flags fs as non-exilable", () => {
-    expect(scan(`const fs = require("fs");`)[0].api).toBe("fs");
+    expect(scan(`const fs = require("fs");`)[0]?.api).toBe("fs");
   });
   it("pure function is exilable", () => {
     expect(scan(`export default (a,b)=>a+b`)).toHaveLength(0);

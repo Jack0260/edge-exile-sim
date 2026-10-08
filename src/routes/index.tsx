@@ -39,7 +39,7 @@ type Result =
 const STEPS = ["Parsing AST", "Scanning for Node-only APIs", "Lowering to Rust IR", "wasm-pack --target web", "Deploying to 5 edges"];
 
 function Index() {
-  const [code, setCode] = useState(SAMPLES["geo-greet.ts"]);
+  const [code, setCode] = useState<string>(SAMPLES["geo-greet.ts"] ?? "");
   const [step, setStep] = useState(-1);
   const [res, setRes] = useState<Result | null>(null);
 
@@ -68,7 +68,7 @@ function Index() {
         <section className="bg-background p-6 flex flex-col gap-3">
           <div className="flex gap-2">
             {Object.keys(SAMPLES).map((k) => (
-              <button key={k} onClick={() => { setCode(SAMPLES[k]); setRes(null); }} className="font-mono text-xs px-3 py-1 border border-border rounded hover:border-primary">{k}</button>
+              <button key={k} onClick={() => { setCode(SAMPLES[k] ?? ""); setRes(null); }} className="font-mono text-xs px-3 py-1 border border-border rounded hover:border-primary">{k}</button>
             ))}
           </div>
           <textarea value={code} onChange={(e) => setCode(e.target.value)} spellCheck={false}
@@ -107,7 +107,7 @@ function Index() {
 }
 
 function Report({ r }: { r: Extract<Result, { ok: true }> }) {
-  const proj = (lat: number, lon: number) => [((lon + 180) / 360) * 600, ((90 - lat) / 180) * 300];
+  const proj = (lat: number, lon: number): [number, number] => [((lon + 180) / 360) * 600, ((90 - lat) / 180) * 300];
   const max = Math.max(...EDGES.map((e) => e.rtt));
   return (
     <div className="space-y-6">
